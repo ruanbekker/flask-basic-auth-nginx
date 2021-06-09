@@ -1,0 +1,26 @@
+version: "3.7"
+
+services:
+  flask-app:
+    build:
+      context: flask-app
+      dockerfile: Dockerfile
+    container_name: flask-app
+    networks:
+      - flask-app
+
+  nginx-proxy:
+    build:
+      context: nginx
+      dockerfile: Dockerfile
+    container_name: nginx
+    ports:
+      - 8080:80
+    depends_on:
+      - flask-app
+    networks:
+      - flask-app
+
+networks:
+  flask-app:
+    name: flask-app
